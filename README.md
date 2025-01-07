@@ -60,7 +60,7 @@ your data in it. For me it was a matter of changing the number at the end of the
 relevant year. Additionally, Year needs to be matched with the correct vintage otherwise the dataframe
 that is output will indicate the wrong year. If you are running this on a different computer you may have
 to either recreate my file structure or use your own but be mindful that you will have 3 variables to change
-Year, Directory, and the Database_df.to_csv path
+Year, Directory, and the Database_df.to_csv path.
 
 
 
