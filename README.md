@@ -34,14 +34,14 @@ extraction can work correctly.
 Recommended File Structure for storing DER Data:
 
 Python Data(
-    Done 2001
-    Done 2002
-    Done 2003
+    Done 2001,
+    Done 2002,
+    Done 2003,
     ...
-    Done 2023
-    Extracted Wages
-    Misc
-    To be dealt with)
+    Done 2023,
+    Extracted Wages,
+    Misc,
+    To be dealt with,)
 
 This directory will allow you to store each year of data scraped in an organized
 way so that you don't mix the vintages up which is very possible in this process. 
