@@ -5,6 +5,8 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
+import os
+import glob
 from selenium.webdriver.common.keys import Keys
 import time
 # from selenium.webdriver.common.by import By
@@ -18,6 +20,8 @@ PATH = "C:\Program Files (x86)\chromedriver.exe"
 GLOBAL_START_TIME = time.time()
 items_done = 0
 runtimes = []
+sleep_timer = 3
+YEAR = "2012"
 #HTML objects to reference for web driving
 # value_list = ["ddAreaType","ddSpecificArea","ddYearSelector","ddTimePeriod","ddOwnership","ddIndustry","lmi__radio",
 #               "Download and save the data as a Comma Separated Value (CSV) file"]
@@ -33,6 +37,7 @@ communities = ['Agawam','Amherst','Ashfield','Belchertown','Bernardston','Blandf
                'Sunderland','Tolland','Wales','Ware','Warwick','Wendell','West Springfield','Westfield',
                'Westhampton','Whately','Wilbraham','Williamsburg','Worthington']
 
+counties = ["Franklin County", "Hampden County","Hampshire County"]
 
 
 ########################################################################################################################
@@ -47,11 +52,11 @@ communities = ['Agawam','Amherst','Ashfield','Belchertown','Bernardston','Blandf
 
 #Function to crawl through webpage and select each option from the drop down menus and radio buttons. Automates the
 #downloading of data into your downloads folder on the C drive.
-def Gov_Scraper(community):
+def Community_Scraper(community,YEAR):
     #Implement run time tracking so we can watch what
     # stage what town etc and pin point failures more easily
     print("_______________________________")
-    print(f'Time: {(time.time()-GLOBAL_START_TIME)/60} Minutes \nExecuting new selection: \n{community}')
+    print(f'Time: {round((time.time()-GLOBAL_START_TIME)/60,4)} Minutes \nExecuting new selection: \n{community}')
 
     driver = webdriver.Chrome()
     driver.get("https://lmi.dua.eol.mass.gov/LMI/EmploymentAndWages#")
@@ -78,10 +83,10 @@ def Gov_Scraper(community):
 
     while True:
         try:
-            time.sleep(7)
+            time.sleep(sleep_timer)
             search = driver.find_element(by=By.ID, value="ddYearSelector")
             select = Select(search)
-            select.select_by_visible_text("2020")
+            select.select_by_visible_text(YEAR)
             break
         except NoSuchElementException:
             print("Element does not exist, waiting a few seconds then trying again")
@@ -89,7 +94,7 @@ def Gov_Scraper(community):
 
     while True:
         try:
-            time.sleep(7)
+            time.sleep(sleep_timer)
             search = driver.find_element(by=By.ID, value="ddTimePeriod")
             select = Select(search)
             select.select_by_visible_text("Annual Report")
@@ -100,7 +105,7 @@ def Gov_Scraper(community):
 
     while True:
         try:
-            time.sleep(7)
+            time.sleep(sleep_timer)
             search = driver.find_element(by=By.ID, value="ddOwnership")
             select = Select(search)
             select.select_by_visible_text("All ownership types")
@@ -111,7 +116,7 @@ def Gov_Scraper(community):
 
     while True:
         try:
-            time.sleep(7)
+            time.sleep(sleep_timer)
             search = driver.find_element(by=By.ID, value="ddIndustry")
             select = Select(search)
             select.select_by_visible_text("Total, All Industries")
@@ -128,12 +133,130 @@ def Gov_Scraper(community):
                                value="Download and save the data as a Comma Separated Value (CSV) file")
     link.click()
 
-    print(f'{community} Runtime: {round(time.time()-GLOBAL_START_TIME,2)}\n')
-    completion = (len(communities)-communities.index(community))*(time.time()-GLOBAL_START_TIME)/60
-    print(f'Estimated remaining wait time:{round(completion,2)} Minutes')
-    time.sleep(15)
+    time.sleep(sleep_timer)
     driver.quit()
     time.sleep(2)
 
+def County_Scraper(county,YEAR):
+    # Implement run time tracking so we can watch what
+    # stage what town etc and pin point failures more easily
+    n=0
+    print("_______________________________")
+    print(f'Time: {round((time.time() - GLOBAL_START_TIME) / 60,4)} Minutes \nExecuting new selection: \n{county}')
+
+    driver = webdriver.Chrome()
+    driver.get("https://lmi.dua.eol.mass.gov/LMI/EmploymentAndWages#")
+
+    while True:
+        try:
+            search = driver.find_element(by=By.ID, value="ddAreaType")
+            select = Select(search)
+            select.select_by_visible_text("County")
+            break
+        except NoSuchElementException:
+            print("Element does not exist, waiting a few seconds then trying again")
+            print(round((time.time() - GLOBAL_START_TIME) / 60, 2))
+
+    while True:
+        try:
+            search = driver.find_element(by=By.ID, value="ddSpecificArea")
+            select = Select(search)
+            select.select_by_visible_text(county)
+            break
+        except NoSuchElementException:
+            print("Element does not exist, waiting a few seconds then trying again")
+            print(round((time.time() - GLOBAL_START_TIME) / 60, 2))
+
+    while True:
+        try:
+            time.sleep(sleep_timer)
+            search = driver.find_element(by=By.ID, value="ddYearSelector")
+            select = Select(search)
+            select.select_by_visible_text(YEAR)
+            break
+        except NoSuchElementException:
+            print("Element does not exist, waiting a few seconds then trying again")
+            print(round((time.time() - GLOBAL_START_TIME) / 60, 2))
+
+    while True:
+        try:
+            time.sleep(sleep_timer)
+            search = driver.find_element(by=By.ID, value="ddTimePeriod")
+            select = Select(search)
+            select.select_by_visible_text("Annual Report")
+            break
+        except NoSuchElementException:
+            print("Element does not exist, waiting a few seconds then trying again")
+            print(round((time.time() - GLOBAL_START_TIME) / 60, 2))
+
+    while True:
+        try:
+            time.sleep(sleep_timer)
+            search = driver.find_element(by=By.ID, value="ddOwnership")
+            select = Select(search)
+            select.select_by_visible_text("All ownership types")
+            break
+        except NoSuchElementException:
+            print("Element does not exist, waiting a few seconds then trying again")
+            print(round((time.time() - GLOBAL_START_TIME) / 60, 2))
+
+    while True:
+        try:
+            time.sleep(sleep_timer)
+            search = driver.find_element(by=By.ID, value="ddIndustry")
+            select = Select(search)
+            select.select_by_visible_text("Total, All Industries")
+            break
+        except NoSuchElementException:
+            print("Element does not exist, waiting a few seconds then trying again")
+            print(round((time.time() - GLOBAL_START_TIME) / 60, 2))
+
+    # This currently selects the first radio button but we need the second one.
+    link = driver.find_element(by=By.XPATH, value='//*[@id="liCategory"]/div[3]/label[2]')
+    link.click()
+
+    link = driver.find_element(by=By.LINK_TEXT,
+                               value="Download and save the data as a Comma Separated Value (CSV) file")
+    link.click()
+
+    time.sleep(sleep_timer)
+    driver.quit()
+    time.sleep(2)
+
+
 for community in communities:
-    Gov_Scraper(community)
+    Community_Scraper(community, YEAR)
+    try:
+        home = os.path.expanduser('~')
+        path = os.path.join(home, 'Downloads')
+
+        path_a = path + "/*"
+        list_of_files = glob.glob(path_a)
+        latest_file = max(list_of_files, key=os.path.getctime)
+
+        new_file = os.path.join(path, community+".csv")
+        print(latest_file)
+
+        os.rename(latest_file, new_file)
+        print(new_file)
+    except FileExistsError:
+        print("The file already exists, please rename manually")
+
+
+for county in counties:
+    County_Scraper(county, YEAR)
+    try:
+        home = os.path.expanduser('~')
+        path = os.path.join(home, 'Downloads')
+
+        path_a = path + "/*"
+        list_of_files = glob.glob(path_a)
+        latest_file = max(list_of_files, key=os.path.getctime)
+
+        new_file = os.path.join(path, county+".csv")
+        print(latest_file)
+
+        os.rename(latest_file, new_file)
+        print(new_file)
+    except FileExistsError:
+        print("The file already exists, please rename manually")
