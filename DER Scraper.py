@@ -21,7 +21,7 @@ GLOBAL_START_TIME = time.time()
 items_done = 0
 runtimes = []
 sleep_timer = 3
-YEAR = "2012"
+YEAR = "2023"
 #HTML objects to reference for web driving
 # value_list = ["ddAreaType","ddSpecificArea","ddYearSelector","ddTimePeriod","ddOwnership","ddIndustry","lmi__radio",
 #               "Download and save the data as a Comma Separated Value (CSV) file"]
@@ -36,6 +36,18 @@ communities = ['Agawam','Amherst','Ashfield','Belchertown','Bernardston','Blandf
                'Rowe','Russell','Shelburne','Shutesbury','South Hadley','Southampton','Southwick','Springfield',
                'Sunderland','Tolland','Wales','Ware','Warwick','Wendell','West Springfield','Westfield',
                'Westhampton','Whately','Wilbraham','Williamsburg','Worthington']
+
+# Modify this list if you need to restart without redoing all the work again, remove from the second list what has been
+# completed or skipped. DO NOT MODIFY THE ORIGINAL __^
+# communities = ['Amherst','Ashfield','Belchertown','Bernardston','Blandford','Brimfield','Buckland',
+#                'Charlemont','Chester','Chesterfield','Chicopee','Colrain','Conway','Cummington','Deerfield',
+#                'East Longmeadow','Easthampton','Erving','Gill','Goshen','Granby','Granville',
+#                'Greenfield','Hadley','Hampden','Hatfield','Hawley','Heath','Holland','Holyoke','Huntington',
+#                'Leverett','Leyden','Longmeadow','Ludlow','Middlefield','Monroe','Monson','Montague',
+#                'Montgomery','New Salem','Northampton','Northfield','Orange','Palmer','Pelham','Plainfield',
+#                'Rowe','Russell','Shelburne','Shutesbury','South Hadley','Southampton','Southwick','Springfield',
+#                'Sunderland','Tolland','Wales','Ware','Warwick','Wendell','West Springfield','Westfield',
+#                'Westhampton','Whately','Wilbraham','Williamsburg','Worthington']
 
 counties = ["Franklin County", "Hampden County","Hampshire County"]
 
